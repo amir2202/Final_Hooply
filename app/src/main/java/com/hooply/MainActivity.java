@@ -151,44 +151,57 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public synchronized void synchUsers() throws IOException {
+    public void synchUsers() throws IOException {
+        final Object lock = new Object();
+
         final boolean[] found = {false};
+
         Thread thread = new Thread(new Runnable() {
             public void run() {
-                URL url = null;
-                try {
-                    url = new URL("https://caracal.imada.sdu.dk/app2020/");
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                    con.setRequestMethod("GET");
-                    String test = con.getResponseMessage();
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
-                    StringBuilder build = new StringBuilder();
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        build.append(line+"\n");
+                synchronized (lock) {
+                    URL url = null;
+                    try {
+                        url = new URL("https://caracal.imada.sdu.dk/app2020/");
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
                     }
+                    try {
+                        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                        con.setRequestMethod("GET");
+                        String test = con.getResponseMessage();
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                        StringBuilder build = new StringBuilder();
+                        String line;
+                        while ((line = reader.readLine()) != null) {
+                            build.append(line + "\n");
+                        }
 
-                    Log.d("all",build.toString());
+                        Log.d("all", build.toString());
 
-                } catch (ProtocolException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    } catch (ProtocolException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    found[0] = true;
+                    lock.notify();
                 }
-                found[0] = true;
             }
         });
+
         thread.start();
-        while(found[0] == false){
-            try {
-                this.wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+
+        try {
+            synchronized(lock) {
+                while(found[0] == false) {
+                    lock.wait();
+                }
+                // add remote db data to local db ???
+                return;
             }
+        } catch (InterruptedException e) {
+            // maybe do smth for exception handling ? or just ignore lol
+            return;
         }
 
     }
