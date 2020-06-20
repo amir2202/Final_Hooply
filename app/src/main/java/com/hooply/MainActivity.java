@@ -16,7 +16,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.util.List;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class MainActivity extends AppCompatActivity {
     private HooplyDatabase db;
@@ -87,9 +94,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public boolean userExists(String userid){
+    public synchronized boolean userExists(String userid) {
         //TODO: DOES NOT WORK MEN / need to run the actual thread i think
         final String id = userid;
+        final boolean[] found = {false};
         final boolean[] empty = {false};
         Thread thread = new Thread(new Runnable() {
             @Override
@@ -101,8 +109,62 @@ public class MainActivity extends AppCompatActivity {
                 else{
                     empty[0] =  false;
                 }
+                found[0] = true;
             }
         });
+        thread.start();
+            while (found[0] == false) {
+                try{
+                    this.wait();
+                } catch(InterruptedException e){
+
+                }
+            }
         return empty[0];
     }
+
+    public void synchDb() throws IOException {
+        URL restDb = null;
+        try {
+            restDb = new URL("http://caracal.imada.sdu.dk/app2020/");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        // Create connection
+        HttpsURLConnection myConnection = (HttpsURLConnection) restDb.openConnection();
+
+        myConnection.setRequestProperty("User-Agent", "my-restdb-app");
+        myConnection.setRequestProperty("Accept", "application/json");
+        myConnection.setRequestProperty("x-apikey", "560bd47058e7ab1b2648f4e7");
+
+        if (myConnection.getResponseCode() == 200) {
+
+        } else {
+
+        }
+    }
+
+    public void synchUsers() throws IOException {
+        URL url = null;
+        try {
+            url = new URL("http://example.com");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        try {
+            con.setRequestMethod("GET");
+            String test = con.getResponseMessage();
+            Log.d("mennn",test);
+
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+        }
+    }
+    public void synchPosts(){
+
+    }
+
+
 }
