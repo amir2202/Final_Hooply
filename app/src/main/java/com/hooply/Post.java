@@ -2,12 +2,19 @@ package com.hooply;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
 import java.sql.Date;
 
-@Entity(tableName = "Posts")
+@Entity(tableName = "Posts",foreignKeys = @ForeignKey(
+        entity = User.class,
+        parentColumns = "userid",
+        childColumns = "user",
+        onDelete = ForeignKey.NO_ACTION,
+        onUpdate = ForeignKey.NO_ACTION
+))
 public class Post {
 
     @PrimaryKey(autoGenerate = true)

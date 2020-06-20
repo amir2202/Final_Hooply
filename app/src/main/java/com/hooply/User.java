@@ -2,13 +2,14 @@ package com.hooply;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
 import java.sql.Date;
 import java.sql.Timestamp;
 
-@Entity
+@Entity(indices = {@Index(name = "userindex",value={"userid"})})
 public class User {
     @PrimaryKey
     @NonNull private String userid;
