@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Delete;
 import androidx.room.Room;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -51,11 +53,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void login(String email) {
-        boolean wrongUsername = true;       //USE FOR CHECKING IF THE USERNAME IS CORRECT
+    public void login(String username) {
+        boolean wrongUsername = userExists(username);       //USE FOR CHECKING IF THE USERNAME IS CORRECT
 
-        if(wrongUsername)
-        Log.d("login", email);
+        if(wrongUsername) {
             new AlertDialog.Builder(this)
                     .setTitle("Error")
                     .setMessage("Wrong Username")
@@ -65,11 +66,22 @@ public class MainActivity extends AppCompatActivity {
                             finish();
                         }
                     }).setPositiveButton("Retry", null).show();
+        } else {
+            storeUsername(username);
+        }
     }
 
     public void register(String email) {
 
     }
+
+    public void storeUsername(String uid) {
+        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("uid", uid);
+        editor.apply();
+    }
+
 
     public boolean userExists(String userid){
         final String id = userid;
