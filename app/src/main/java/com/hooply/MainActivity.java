@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
                 EditText emailText = (EditText) findViewById(R.id.usernameText);
                 String email = emailText.getText().toString();
                 register(email);
-                startActivity(new Intent(MainActivity.this, RegisterUser.class));
                 TextView debug = (TextView) findViewById(R.id.debug);
                 debug.setText("register:" + email);
             }
@@ -56,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     public void login(String username) {
         boolean wrongUsername = userExists(username);       //USE FOR CHECKING IF THE USERNAME IS CORRECT
 
-        if(wrongUsername) {
+        if(wrongUsername || username.equals("")) {
             new AlertDialog.Builder(this)
                     .setTitle("Error")
                     .setMessage("Wrong Username")
@@ -71,8 +70,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void register(String email) {
-
+    public void register(String username) {
+        if(!username.equals("")){
+            Intent i = new  Intent(MainActivity.this, RegisterUser.class);
+            i.putExtra("UserName",username);
+            Log.d("MEN",username);
+            startActivity(i);
+        }
     }
 
     public void storeUsername(String uid) {
@@ -84,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public boolean userExists(String userid){
+        //TODO: DOES NOT WORK MEN
         final String id = userid;
         final boolean[] empty = {false};
         Thread thread = new Thread(new Runnable() {

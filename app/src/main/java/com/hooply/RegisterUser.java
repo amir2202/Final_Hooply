@@ -1,7 +1,9 @@
 package com.hooply;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,37 +12,51 @@ import android.widget.EditText;
 
 public class RegisterUser extends AppCompatActivity {
 
+    private String userName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_user);
 
+        Bundle b = getIntent().getExtras();
+        userName = b.getString("UserName");
+        EditText userIdText = (EditText) findViewById(R.id.userId);
+        userIdText.setText("User ID: " + userName);
+        userIdText.setFocusable(false);
         configureBackButton();
     }
 
     private void configureBackButton(){
         Button backButton = (Button) findViewById(R.id.goBack);
-
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 EditText firstNameText = (EditText) findViewById(R.id.firstName);
                 String firstName = firstNameText.getText().toString();
-
                 EditText lastNameText = (EditText) findViewById(R.id.lastName);
                 String lastName = lastNameText.getText().toString();
 
-                if(firstName != "" && lastName != ""){
-                    storeName(firstName, lastName);
-                    finish();
-                }
+                storeName(firstName, lastName);
             }
         });
     }
 
     public void storeName(String firstName, String lastName){
         Log.d("NAMES:", firstName + " " + lastName);
-        //TODO: store NAMES TO DATABASE
+        if (!lastName.equals("") && !firstName.equals("")){
+            finish();
+            //TODO: store NAME TO DATABASE
+        } else {
+            new AlertDialog.Builder(this)
+                    .setTitle("Error")
+                    .setMessage("Some fields are empty!")
+                    .setNegativeButton("Retry", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {}
+                    }).show();
+        }
+
     }
 
 }
