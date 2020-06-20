@@ -20,6 +20,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
     public void login(String username) {
         boolean wrongUsername = !userExists(username);       //USE FOR CHECKING IF THE USERNAME IS CORRECT
 
-        if(wrongUsername || !username.equals("")) {
+        if(wrongUsername || username.equals("")) {
             new AlertDialog.Builder(this)
                     .setTitle("Error")
                     .setMessage("Wrong Username")
@@ -101,7 +102,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     public synchronized boolean userExists(String userid) {
-        //TODO: DOES NOT WORK MEN / need to run the actual thread i think
         final String id = userid;
         final boolean[] found = {false};
         final boolean[] empty = {false};
@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
                 synchronized (lock) {
                     URL url = null;
                     try {
-                        url = new URL("https://caracal.imada.sdu.dk/app2020/");
+                        url = new URL("https://caracal.imada.sdu.dk/app2020/users");
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
                     }
@@ -170,13 +170,29 @@ public class MainActivity extends AppCompatActivity {
                         con.setRequestMethod("GET");
                         String test = con.getResponseMessage();
                         BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
-                        StringBuilder build = new StringBuilder();
+                        StringBuilder out = new StringBuilder();
                         String line;
-                        while ((line = reader.readLine()) != null) {
-                            build.append(line + "\n");
+
+
+                        final int bufferSize = 1024;
+                        final char[] buffer = new char[bufferSize];
+                        Reader in = new InputStreamReader(con.getInputStream());
+                        int charsRead;
+                        while((charsRead = in.read(buffer, 0, buffer.length)) > 0) {
+                            out.append(buffer, 0, charsRead);
                         }
 
-                        Log.d("all", build.toString());
+                        Log.d("teststuff",out.toString());
+
+                        List<User> stuff = Parser.parseUsers(out.toString(),db.myDao());
+                        for(User user:stuff){
+                            if(db.myDao().userIdExists(user.getId()).size() == 0) {
+                                db.myDao().addUser(user);
+                            }
+                            else{
+                                continue;
+                            }
+                        }
 
                     } catch (ProtocolException e) {
                         e.printStackTrace();

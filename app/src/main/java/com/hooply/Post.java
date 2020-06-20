@@ -11,7 +11,7 @@ import java.sql.Date;
 
 @Entity(indices = {@Index(name = "userindex2",value={"user"})},tableName = "Posts",foreignKeys = @ForeignKey(
         entity = User.class,
-        parentColumns = "userid",
+        parentColumns = "id",
         childColumns = "user",
         onDelete = ForeignKey.NO_ACTION,
         onUpdate = ForeignKey.NO_ACTION

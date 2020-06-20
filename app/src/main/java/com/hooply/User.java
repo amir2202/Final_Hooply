@@ -9,42 +9,43 @@ import androidx.room.TypeConverters;
 import java.sql.Date;
 import java.sql.Timestamp;
 
-@Entity(indices = {@Index(name = "userindex",value={"userid"})})
+@Entity(indices = {@Index(name = "userindex",value={"id"})})
 public class User {
     @PrimaryKey
-    @NonNull private String userid;
+    @ColumnInfo(name="id")
+    @NonNull private String id;
 
 
     @ColumnInfo(name="name")
-    private String fullName;
+    private String name;
 
 
 
     @ColumnInfo(name="stamp")
-    @TypeConverters({Converters.class})
-    private Date stamp;
+    private String stamp;
 
-    public String getUserid() {
-        return userid;
+    @NonNull
+    public String getId() {
+        return id;
     }
 
-    public String getFullName() {
-        return fullName;
+    public void setId(@NonNull String id) {
+        this.id = id;
     }
 
-    public void setUserid(String userid) {
-        this.userid = userid;
+    public String getName() {
+        return name;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Date getStamp() {
+    public String getStamp() {
         return stamp;
     }
 
-    public void setStamp(Date stamp) {
+    public void setStamp(String stamp) {
         this.stamp = stamp;
     }
 }

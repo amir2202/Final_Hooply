@@ -19,7 +19,7 @@ public interface MyDao
     @Delete
     public void deleteUser(User user);
 
-    @Query("SELECT * FROM user WHERE userid IN (:id)")
+    @Query("SELECT * FROM user WHERE id IN (:id)")
     List<User> userIdExists(String id);
 
 }
