@@ -1,18 +1,72 @@
 package com.hooply;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
-@Entity
+import java.sql.Date;
+
+
+@Entity(tableName = "comments",foreignKeys = {@ForeignKey(
+        entity = User.class,
+        parentColumns = "userid",
+        childColumns = "user",
+        onDelete = ForeignKey.NO_ACTION,
+        onUpdate = ForeignKey.NO_ACTION
+),
+        @ForeignKey(
+        entity = Post.class,
+        parentColumns = "id",
+        childColumns = "post",
+        onDelete = ForeignKey.NO_ACTION,
+        onUpdate = ForeignKey.NO_ACTION
+)},primaryKeys = {"user", "stamp"} )
 public class Comments {
-    @PrimaryKey
-    private int commentid;
+    @ColumnInfo(name="user")
+    @NonNull private String user;
 
-    public int getCommentid() {
-        return commentid;
+    @ColumnInfo(name="post")
+    private int post;
+
+    @ColumnInfo(name="content")
+    private String content;
+
+    @ColumnInfo(name="stamp")
+    @TypeConverters({Converters.class})
+    @NonNull Date stamp;
+
+    public String getUser() {
+        return user;
     }
 
-    public void setCommentid(int commentid) {
-        this.commentid = commentid;
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public int getPost() {
+        return post;
+    }
+
+    public void setPost(int post) {
+        this.post = post;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public Date getStamp() {
+        return stamp;
+    }
+
+    public void setStamp(Date stamp) {
+        this.stamp = stamp;
     }
 }

@@ -3,7 +3,9 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 
 @Entity
@@ -15,8 +17,11 @@ public class User {
     @ColumnInfo(name="name")
     private String fullName;
 
-    //@ColumnInfo(name="timestamp")
-    //private Timestamp stamp;
+
+
+    @ColumnInfo(name="stamp")
+    @TypeConverters({Converters.class})
+    private Date stamp;
 
     public String getUserid() {
         return userid;
@@ -32,5 +37,13 @@ public class User {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    public Date getStamp() {
+        return stamp;
+    }
+
+    public void setStamp(Date stamp) {
+        this.stamp = stamp;
     }
 }
