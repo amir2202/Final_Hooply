@@ -2,6 +2,7 @@ package com.hooply;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
                 EditText emailText = (EditText) findViewById(R.id.usernameText);
                 String email = emailText.getText().toString();
                 register(email);
+                startActivity(new Intent(MainActivity.this, RegisterUser.class));
                 TextView debug = (TextView) findViewById(R.id.debug);
                 debug.setText("register:" + email);
             }
