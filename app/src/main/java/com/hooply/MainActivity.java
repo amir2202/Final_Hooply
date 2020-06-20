@@ -100,4 +100,8 @@ public class MainActivity extends AppCompatActivity {
         });
         return empty[0];
     }
+
+    public void synchDb(){
+
+    }
 }
