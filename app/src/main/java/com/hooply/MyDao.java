@@ -13,6 +13,9 @@ public interface MyDao
     @Insert
     public void addUser(User user);
 
+    @Insert
+    public void addPost(Post post);
+
     @Delete
     public void deleteUser(User user);
 

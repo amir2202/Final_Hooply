@@ -81,6 +81,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+
     public boolean userExists(String userid){
         final String id = userid;
         final boolean[] empty = {false};
