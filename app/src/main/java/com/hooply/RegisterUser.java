@@ -50,6 +50,7 @@ public class RegisterUser extends AppCompatActivity {
         if (!lastName.equals("") && !firstName.equals("") && !MainActivity.userExists(userName)){
             MainActivity.instance.storeUsername(userName);
             final User user = new User(userName,firstName+" "+ lastName,"2");
+            ExternalDb.insertRemoteUser(user);
             String teststring = "false";
             Thread thread = new Thread(new Runnable() {
                 @Override
