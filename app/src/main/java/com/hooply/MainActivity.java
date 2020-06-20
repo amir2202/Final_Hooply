@@ -101,32 +101,44 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public synchronized boolean userExists(String userid) {
+    public boolean userExists(String userid) {
+        final Object lock = new Object();
+
         final String id = userid;
         final boolean[] found = {false};
         final boolean[] empty = {false};
+
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                List<User> users = db.myDao().userIdExists(id);
-                if(users.size() > 0){
-                    empty[0] = true;
+                synchronized (lock) {
+                    List<User> users = db.myDao().userIdExists(id);
+                    if(users.size() > 0){
+                        empty[0] = true;
+                    }
+                    else{
+                        empty[0] =  false;
+                    }
+                    found[0] = true;
+                    lock.notify();
                 }
-                else{
-                    empty[0] =  false;
-                }
-                found[0] = true;
             }
         });
-        thread.start();
-            while (found[0] == false) {
-                try{
-                    this.wait();
-                } catch(InterruptedException e){
 
+        thread.start();
+
+        try {
+            synchronized(lock) {
+                while(found[0] == false) {
+                    lock.wait();
                 }
+                // return the result
+                return empty[0];
             }
-        return empty[0];
+        } catch (InterruptedException e) {
+            // maybe do smth for exception handling ? or just ignore lol
+            return empty[0];
+        }
     }
 
     public void synchDb() throws IOException {
