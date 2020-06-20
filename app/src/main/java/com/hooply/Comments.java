@@ -4,13 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
 import java.sql.Date;
 
 
-@Entity(tableName = "comments",foreignKeys = {@ForeignKey(
+@Entity(indices = {@Index(name = "userindex3",value={"user"})},tableName = "comments",foreignKeys = {@ForeignKey(
         entity = User.class,
         parentColumns = "userid",
         childColumns = "user",

@@ -3,12 +3,13 @@ package com.hooply;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
 import java.sql.Date;
 
-@Entity(tableName = "Posts",foreignKeys = @ForeignKey(
+@Entity(indices = {@Index(name = "userindex2",value={"user"})},tableName = "Posts",foreignKeys = @ForeignKey(
         entity = User.class,
         parentColumns = "userid",
         childColumns = "user",
