@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void login(String username) {
-        boolean wrongUsername = userExists(username);       //USE FOR CHECKING IF THE USERNAME IS CORRECT
+        boolean wrongUsername = !userExists(username);       //USE FOR CHECKING IF THE USERNAME IS CORRECT
 
         if(wrongUsername || username.equals("")) {
             new AlertDialog.Builder(this)
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public boolean userExists(String userid){
-        //TODO: DOES NOT WORK MEN
+        //TODO: DOES NOT WORK MEN / need to run the actual thread i think
         final String id = userid;
         final boolean[] empty = {false};
         Thread thread = new Thread(new Runnable() {
