@@ -22,4 +22,7 @@ public interface MyDao
     @Query("SELECT * FROM user WHERE id IN (:id)")
     List<User> userIdExists(String id);
 
+    @Query("SELECT * FROM user")
+    List<User> allLocalUsers();
+
 }
