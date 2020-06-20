@@ -16,7 +16,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
@@ -44,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
                 debug.setText("register:" + email);
             }
         });
-
         Button loginButton = (Button) findViewById(R.id.signInButton);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,7 +58,11 @@ public class MainActivity extends AppCompatActivity {
                 debug.setText("login: " + email);
             }
         });
-
+        try {
+            synchUsers();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void login(String username) {
@@ -126,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
     public void synchDb() throws IOException {
         URL restDb = null;
         try {
-            restDb = new URL("http://caracal.imada.sdu.dk/app2020/");
+            restDb = new URL("https://caracal.imada.sdu.dk/app2020/");
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -145,22 +151,46 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void synchUsers() throws IOException {
-        URL url = null;
-        try {
-            url = new URL("http://example.com");
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        HttpURLConnection con = (HttpURLConnection) url.openConnection();
-        try {
-            con.setRequestMethod("GET");
-            String test = con.getResponseMessage();
-            Log.d("mennn",test);
+    public synchronized void synchUsers() throws IOException {
+        final boolean[] found = {false};
+        Thread thread = new Thread(new Runnable() {
+            public void run() {
+                URL url = null;
+                try {
+                    url = new URL("https://caracal.imada.sdu.dk/app2020/");
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                    con.setRequestMethod("GET");
+                    String test = con.getResponseMessage();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                    StringBuilder build = new StringBuilder();
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        build.append(line+"\n");
+                    }
 
-        } catch (ProtocolException e) {
-            e.printStackTrace();
+                    Log.d("all",build.toString());
+
+                } catch (ProtocolException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                found[0] = true;
+            }
+        });
+        thread.start();
+        while(found[0] == false){
+            try {
+                this.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
+
     }
     public void synchPosts(){
 
