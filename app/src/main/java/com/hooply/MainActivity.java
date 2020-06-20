@@ -86,6 +86,8 @@ public class MainActivity extends AppCompatActivity {
                     }).setPositiveButton("Retry", null).show();
         } else {
             storeUsername(username);
+            Intent i = new  Intent(MainActivity.this, MainPage.class);
+            startActivity(i);
         }
     }
 
