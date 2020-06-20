@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     public void login(String username) {
         boolean wrongUsername = !userExists(username);       //USE FOR CHECKING IF THE USERNAME IS CORRECT
 
-        if(wrongUsername || username.equals("")) {
+        if(wrongUsername || !username.equals("")) {
             new AlertDialog.Builder(this)
                     .setTitle("Error")
                     .setMessage("Wrong Username")
