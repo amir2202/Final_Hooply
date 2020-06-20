@@ -11,6 +11,13 @@ import java.sql.Timestamp;
 
 @Entity(indices = {@Index(name = "userindex",value={"id"})})
 public class User {
+
+    public User(String id, String name,String stamp){
+        this.id = id;
+        this.name = name;
+        this.stamp = stamp;
+    }
+
     @PrimaryKey
     @ColumnInfo(name="id")
     @NonNull private String id;
@@ -18,7 +25,6 @@ public class User {
 
     @ColumnInfo(name="name")
     private String name;
-
 
 
     @ColumnInfo(name="stamp")

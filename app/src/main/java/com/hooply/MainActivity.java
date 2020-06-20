@@ -30,11 +30,12 @@ import java.util.List;
 import javax.net.ssl.HttpsURLConnection;
 
 public class MainActivity extends AppCompatActivity {
-    private HooplyDatabase db;
-
+    public static HooplyDatabase db;
+    public static MainActivity instance;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        instance = this;
         db = Room.databaseBuilder(getApplicationContext(), HooplyDatabase.class, "hooply-database").build();
         setContentView(R.layout.activity_main);
         Button registerButton = (Button) findViewById(R.id.signUpButton);
@@ -66,10 +67,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
     public void login(String username) {
         boolean wrongUsername = !userExists(username);       //USE FOR CHECKING IF THE USERNAME IS CORRECT
-
-        if(wrongUsername || username.equals("")) {
+        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        String storeduser = sharedPref.getString("uid","");
+        Log.d("eee2",userExists(username)?"true":"false");
+        Log.d("eee",storeduser);
+        if(wrongUsername || username.equals("") || !storeduser.equals(username)) {
             new AlertDialog.Builder(this)
                     .setTitle("Error")
                     .setMessage("Wrong Username")
@@ -101,7 +106,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public boolean userExists(String userid) {
+
+    public static boolean userExists(String userid) {
         final Object lock = new Object();
 
         final String id = userid;
@@ -233,6 +239,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+
     public void synchPosts(){
 
     }

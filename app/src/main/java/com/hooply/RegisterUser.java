@@ -3,6 +3,7 @@ package com.hooply;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
@@ -43,8 +44,37 @@ public class RegisterUser extends AppCompatActivity {
     }
 
     public void storeName(String firstName, String lastName){
+        final Object lock = new Object();
+        final boolean[] ready = {false};
         Log.d("NAMES:", firstName + " " + lastName);
-        if (!lastName.equals("") && !firstName.equals("")){
+        if (!lastName.equals("") && !firstName.equals("") && !MainActivity.userExists(userName)){
+            MainActivity.instance.storeUsername(userName);
+            final User user = new User(userName,firstName+" "+ lastName,"2");
+            String teststring = "false";
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    synchronized (lock){
+                        MainActivity.db.myDao().addUser(user);
+                        ready[0] = true;
+                        lock.notify();
+                    }
+                }
+            });
+            thread.start();
+            try{
+                synchronized (lock){
+                    while (ready[0] == false){
+                        lock.wait();
+                    }
+                }
+            } catch(InterruptedException e){
+
+            }
+            if(MainActivity.userExists(userName) == true){
+                teststring = "true";
+            }
+            Log.d("wwwwww", teststring);
             finish();
             //TODO: store NAME TO DATABASE
         } else {
