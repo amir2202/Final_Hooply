@@ -20,6 +20,7 @@ public class Parser {
                 all.add(user);
             }
         }
+
         return all;
     }
 
