@@ -4,18 +4,15 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.hooply.ui.dashboard.PostsFragment;
+import com.hooply.ui.posts.PostsFragment;
 import com.hooply.ui.home.HomeFragment;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 public class MainPage extends AppCompatActivity {
 
@@ -28,30 +25,34 @@ public class MainPage extends AppCompatActivity {
         actionBar = getSupportActionBar();
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
-        navView.setOnNavigationItemReselectedListener(selectListener);
+        navView.setOnNavigationItemSelectedListener(selectListener);
 
         actionBar.setTitle("Home");
         loadFragment(new HomeFragment());
     }
 
-    private BottomNavigationView.OnNavigationItemReselectedListener selectListener =
-            new BottomNavigationView.OnNavigationItemReselectedListener() {
+    private BottomNavigationView.OnNavigationItemSelectedListener selectListener =
+            new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
-                public void onNavigationItemReselected(@NonNull MenuItem item) {
-                    //handle clicks
+                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     switch (item.getItemId()){
                         case R.id.navigation_home:
                             actionBar.setTitle("Home");
-//                            loadFragment();
+                            getSupportFragmentManager().beginTransaction().replace(R.id.container, new HomeFragment()).commit();
+                            return true;
                         case R.id.navigation_posts:
-                            //goo posts
+                            actionBar.setTitle("Posts");
+                            getSupportFragmentManager().beginTransaction().replace(R.id.container, new PostsFragment()).commit();
+                            return true;
                     }
+                    return false;
                 }
             };
 
+
     private void loadFragment(Fragment fragment){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.container, fragment);
+        transaction.replace(R.id.nav_host_fragment, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }
