@@ -90,12 +90,6 @@ public class Posting extends AppCompatActivity {
         updateComments();
     }
 
-    public void setFirst(Comments comments) {
-        TextView comment = (TextView) findViewById(R.id.comment1);
-        comment.setText(comments.getContent());
-        //remember alcoments
-        allcomments.add(0, comments);
-    }
 
     public void prevHandler(View view) {
         ((Button) findViewById(R.id.nextcomments)).setEnabled(true);
@@ -159,14 +153,26 @@ public class Posting extends AppCompatActivity {
         String ts =  tsTemp.toString();
         Comments comment = new Comments(GlobalVar.userid,currentpost.getId(),input,ts);
         ExternalDb.insertComment(comment);
-        this.setFirst(comment);
+        allcomments.add(0,comment);
+        if(allcomments.size() > 3){
+            ((Button) findViewById(R.id.nextcomments)).setEnabled(true);
+        }
+        comment3.setText(comment2.getText());
+        comment2.setText(comment1.getText());
+        comment1.setText(comment.getContent());
+
     }
 
     public void setComments(Comments[] comments) {
+        for(int i = 0;i < commentBoxes.length;i++){
+            if(comments[i] != null){
+                commentBoxes[i].setText(comments[i].getContent());
+            }
+            else{
+                commentBoxes[i].setText("");
+            }
 
-        comment1.setText(comments[0].getContent());
-        comment2.setText(comments[1].getContent());
-        comment3.setText(comments[2].getContent());
+        }
     }
 
     @Override

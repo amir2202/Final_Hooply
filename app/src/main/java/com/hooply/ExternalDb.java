@@ -42,11 +42,9 @@ public class ExternalDb {
                         con.setDoOutput(true);
                         Gson gson = new Gson();
                         String json = gson.toJson(sss);
-                        Log.d("json", json);
                         OutputStream os = con.getOutputStream();
                         os.write(json.toString().getBytes("UTF-8"));
                         os.close();
-                        Log.d("responde", String.valueOf(con.getResponseCode()));
 
                     } catch (ProtocolException e) {
                         e.printStackTrace();
@@ -105,7 +103,6 @@ public class ExternalDb {
                             out.append(buffer, 0, charsRead);
                         }
 
-                        Log.d("testgettingpost",out.toString());
 
                         List<Post> stuff = Parser.parsePost(out.toString(),MainActivity.db.myDao());
                         posts[0] = stuff;
@@ -157,11 +154,9 @@ public class ExternalDb {
                         con.setDoOutput(true);
                         Gson gson = new Gson();
                         String json = gson.toJson(sss);
-                        Log.d("json2", json);
                         OutputStream os = con.getOutputStream();
                         os.write(json.toString().getBytes("UTF-8"));
                         os.close();
-                        Log.d("insertpost", String.valueOf(con.getResponseCode()));
 
                     } catch (ProtocolException e) {
                         e.printStackTrace();
@@ -210,11 +205,9 @@ public class ExternalDb {
                         con.setDoOutput(true);
                         Gson gson = new Gson();
                         String json = gson.toJson(sss);
-                        Log.d("json", json);
                         OutputStream os = con.getOutputStream();
                         os.write(json.toString().getBytes("UTF-8"));
                         os.close();
-                        Log.d("responde", String.valueOf(con.getResponseCode()));
 
                     } catch (ProtocolException e) {
                         e.printStackTrace();
@@ -269,9 +262,7 @@ public class ExternalDb {
                         while((charsRead = in.read(buffer, 0, buffer.length)) > 0) {
                             out.append(buffer, 0, charsRead);
                         }
-                        Log.d("what is uri", urlquery);
                         List<Comments> stuff = Parser.parseComments(out.toString(),MainActivity.db.myDao());
-                        Log.d("testgettingpostcomments",String.valueOf(stuff.size()));
                         posts[0] = stuff;
 
                     } catch (ProtocolException e) {
