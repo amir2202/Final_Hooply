@@ -1,6 +1,10 @@
 package com.hooply;
 
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -22,6 +26,24 @@ public class Parser {
         }
 
         return all;
+    }
+
+    public static List<Post> parsePost(String json, MyDao da){
+        gson = new Gson();
+        List<Post> all = new ArrayList<Post>();
+        Post[] items = gson.fromJson(json, Post[].class);
+        for(Post pos: items)
+        {
+            all.add(pos);
+        }
+
+        return all;
+    }
+
+    public static Bitmap convert64toImg(String base64){
+        byte[] bytes = Base64.decode(base64, Base64.DEFAULT);
+        Bitmap decodedImage = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        return decodedImage;
     }
 
 

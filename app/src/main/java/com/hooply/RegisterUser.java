@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.sql.Timestamp;
+
 public class RegisterUser extends AppCompatActivity {
 
     private String userName;
@@ -49,7 +51,11 @@ public class RegisterUser extends AppCompatActivity {
         Log.d("NAMES:", firstName + " " + lastName);
         if (!lastName.equals("") && !firstName.equals("") && !MainActivity.userExists(userName)){
             MainActivity.instance.storeUsername(userName);
-            final User user = new User(userName,firstName+" "+ lastName,"2");
+            int time = (int) (System.currentTimeMillis());
+            Timestamp tsTemp = new Timestamp(time);
+            String ts =  tsTemp.toString();
+            Log.d("timestamp",ts);
+            final User user = new User(userName,firstName+" "+ lastName,ts);
             ExternalDb.insertRemoteUser(user);
             String teststring = "false";
             Thread thread = new Thread(new Runnable() {

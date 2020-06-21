@@ -11,7 +11,7 @@ import androidx.room.TypeConverters;
 import java.sql.Date;
 
 
-@Entity(indices = {@Index(name = "userindex3",value={"user"})},tableName = "comments",foreignKeys = {@ForeignKey(
+@Entity(indices = {@Index(name = "userindex3",value={"user"}),@Index(name="commentpost",value={"post"})},tableName = "comments",foreignKeys = {@ForeignKey(
         entity = User.class,
         parentColumns = "id",
         childColumns = "user",
@@ -37,7 +37,7 @@ public class Comments {
 
     @ColumnInfo(name="stamp")
     @TypeConverters({Converters.class})
-    @NonNull Date stamp;
+    @NonNull String stamp;
 
     public String getUser() {
         return user;
@@ -63,11 +63,11 @@ public class Comments {
         this.content = content;
     }
 
-    public Date getStamp() {
+    public String getStamp() {
         return stamp;
     }
 
-    public void setStamp(Date stamp) {
+    public void setStamp(String stamp) {
         this.stamp = stamp;
     }
 }

@@ -4,6 +4,8 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.RawQuery;
+import androidx.sqlite.db.SupportSQLiteQuery;
 
 import java.util.List;
 
@@ -16,6 +18,9 @@ public interface MyDao
     @Insert
     public void addPost(Post post);
 
+    @Insert
+    public void addComment(Comments comment);
+
     @Delete
     public void deleteUser(User user);
 
@@ -25,4 +30,12 @@ public interface MyDao
     @Query("SELECT * FROM user")
     List<User> allLocalUsers();
 
+    @Query("SELECT * FROM posts LIMIT 1")
+    List<Post> getPosts();
+
+    @Query("SELECT * FROM comments WHERE post = :id")
+    List<Comments> getCommentsofPost(int id);
+
+    @RawQuery
+    List<Post> getRawQuery(SupportSQLiteQuery query);
 }

@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        GlobalVar global = new GlobalVar();
         instance = this;
         db = Room.databaseBuilder(getApplicationContext(), HooplyDatabase.class, "hooply-database").build();
         setContentView(R.layout.activity_main);
@@ -148,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
             return empty[0];
         }
     }
-
+/*
     public void synchDb() throws IOException {
         URL restDb = null;
         try {
@@ -170,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
-
+*/
     public void synchUsers() throws IOException {
         final Object lock = new Object();
 
@@ -203,7 +204,6 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         Log.d("teststuff",out.toString());
-
                         List<User> stuff = Parser.parseUsers(out.toString(),db.myDao());
                         for(User user:stuff){
                             if(db.myDao().userIdExists(user.getId()).size() == 0) {
@@ -213,6 +213,7 @@ public class MainActivity extends AppCompatActivity {
                                 continue;
                             }
                         }
+                        in.close();
 
                     } catch (ProtocolException e) {
                         e.printStackTrace();
@@ -241,7 +242,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
 
 
 }
