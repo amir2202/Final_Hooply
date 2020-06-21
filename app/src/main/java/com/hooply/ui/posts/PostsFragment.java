@@ -76,7 +76,7 @@ public class PostsFragment extends Fragment {
         if(GlobalVar.currentPost == 0){
             GlobalVar.setEnabled(prev,false);
         }
-
+        Button nextcomment = (Button) v.findViewById(R.id.nextcomments);
 
         return inflater.inflate(R.layout.fragment_posts, container, false);
         //return root;
@@ -84,7 +84,9 @@ public class PostsFragment extends Fragment {
 
 
     public void setComments(Comments[] comments){
-        /*
+       /* TextView comment = (TextView) v.findViewById(R.id.comment1);
+        comment.setText("comm1");
+
         MainActivity.instance.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -98,7 +100,9 @@ public class PostsFragment extends Fragment {
             }
         });
         */
+
     }
+
 
     public void setPost(Post post){
 
@@ -121,11 +125,16 @@ public class PostsFragment extends Fragment {
         }
         else{
             displayBox.setText(post.getContent());
+            displayBox.setText(post.getContent());
             allcomments = post.getAllComments();
             Comments[] showing = new Comments[3];
-            for(int i = 0; i < 3; i++){
+
+            for(int i = commentIndex; i < commentIndex +3; i++){
                 showing[i] = allcomments.get(i);
+
             }
+            Log.d("thepost",post.getContent());
+            Log.d("firstcomm",showing[0].getContent());
             this.setComments(showing);
 
 

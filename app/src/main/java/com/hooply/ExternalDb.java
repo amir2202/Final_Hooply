@@ -272,8 +272,8 @@ public class ExternalDb {
                         }
 
                         Log.d("testgettingpostcomments",out.toString());
-                        List<Post> stuff = Parser.parsePost(out.toString(),MainActivity.db.myDao());
-                        //posts[0] = stuff;
+                        List<Comments> stuff = Parser.parseComments(out.toString(),MainActivity.db.myDao());
+                        posts[0] = stuff;
 
                     } catch (ProtocolException e) {
                         e.printStackTrace();

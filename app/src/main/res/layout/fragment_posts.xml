@@ -86,6 +86,7 @@
             android:layout_width="86dp"
             android:layout_height="43dp"
             android:text="More"
+            android:onClick="buttonHandler"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.763"

@@ -2,6 +2,7 @@ package com.hooply;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.room.Delete;
 import androidx.room.Room;
 
@@ -87,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                     }).setPositiveButton("Retry", null).show();
         } else {
             storeUsername(username);
-            Intent i = new  Intent(MainActivity.this, MainPage.class);
+            Intent i = new  Intent(MainActivity.this, Posting.class);
             startActivity(i);
         }
     }

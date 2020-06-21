@@ -10,6 +10,7 @@ import androidx.room.TypeConverters;
 import java.sql.Array;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity(indices = {@Index(name = "userindex2",value={"user"})},tableName = "Posts",foreignKeys = @ForeignKey(
         entity = User.class,
@@ -70,17 +71,9 @@ public class Post {
     public void addComment(Comments comment){ this.allcomments.add(comment);
     }
 
-    public ArrayList<Comments> getAllComments(){
-
-
-        String query = "https://caracal.imada.sdu.dk/app2020/comments?post_id=eq."+String.valueOf(this.id);
-        this.allcomments = new ArrayList<Comments>();
-        Comments example = new Comments();
-        example.setContent("test comment");
-        this.allcomments.add(example);
-        this.allcomments.add(example);
-        this.allcomments.add(example);
-        return this.allcomments;
+    public List<Comments> getAllComments(){
+        String url = "https://caracal.imada.sdu.dk/app2020/comments?post_id=eq."+String.valueOf(this.id);
+        return ExternalDb.getComments(url);
     }
 
 }
