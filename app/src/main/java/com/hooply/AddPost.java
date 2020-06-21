@@ -66,8 +66,8 @@ public class AddPost extends AppCompatActivity {
     }
 
     public void uploadPost(String poststring){
-        Toast.makeText(this, "Post uploaded.", Toast.LENGTH_SHORT).show();
-        Random random = new Random();
+
+       Random random = new Random();
 
         String testid = String.valueOf(random.nextInt(Integer.MAX_VALUE));
         boolean has = ExternalDb.hasPostId(testid);
@@ -76,8 +76,9 @@ public class AddPost extends AppCompatActivity {
             has = ExternalDb.hasPostId(testid);
         }
         Post mypost = new Post(Integer.valueOf(testid),GlobalVar.userid,poststring);
-        Log.d("id of post to findf",testid);
         ExternalDb.insertPost(mypost);
+        Log.d("finalid",testid);
+        Toast.makeText(this, "Post uploaded.", Toast.LENGTH_SHORT).show();
     }
 
     public void imageButton(){

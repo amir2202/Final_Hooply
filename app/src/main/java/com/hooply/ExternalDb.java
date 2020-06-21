@@ -304,6 +304,7 @@ public class ExternalDb {
         final Object lock = new Object();
         final List<Post>[] posts = new List[]{new ArrayList<Post>()};
         final boolean[] found = {false};
+        final boolean[] complete = {false};
 
         Thread thread = new Thread(new Runnable() {
             public void run() {
@@ -332,6 +333,9 @@ public class ExternalDb {
                         if(stuff.size() >0){
                             found[0] = true;
                         }
+                        else{
+                            found[0] = false;
+                        }
                         posts[0] = stuff;
 
                     } catch (ProtocolException e) {
@@ -339,7 +343,7 @@ public class ExternalDb {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    found[0] = true;
+                    complete[0] = true;
                     lock.notify();
                 }
             }
@@ -349,7 +353,7 @@ public class ExternalDb {
 
         try {
             synchronized(lock) {
-                while(found[0] == false) {
+                while(complete[0] == false) {
                     lock.wait();
                 }
             }
