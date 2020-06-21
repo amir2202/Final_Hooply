@@ -26,11 +26,19 @@ import java.sql.Date;
         onUpdate = ForeignKey.NO_ACTION
 )},primaryKeys = {"user", "stamp"} )
 public class Comments {
+    public Comments(){};
+    public Comments(String user, int postid, String content,String stamp){
+        this.user_id = user;
+        this.post_id = postid;
+        this.content = content;
+        this.stamp = stamp;
+    }
+
     @ColumnInfo(name="user")
-    @NonNull private String user;
+    @NonNull private String user_id;
 
     @ColumnInfo(name="post")
-    private int post;
+    private int post_id;
 
     @ColumnInfo(name="content")
     private String content;
@@ -39,20 +47,20 @@ public class Comments {
     @TypeConverters({Converters.class})
     @NonNull String stamp;
 
-    public String getUser() {
-        return user;
+    public String getUser_id() {
+        return user_id;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setUser_id(String user) {
+        this.user_id = user;
     }
 
-    public int getPost() {
-        return post;
+    public int getPost_id() {
+        return post_id;
     }
 
-    public void setPost(int post) {
-        this.post = post;
+    public void setPost_id(int post) {
+        this.post_id = post;
     }
 
     public String getContent() {

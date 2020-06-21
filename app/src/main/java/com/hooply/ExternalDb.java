@@ -85,7 +85,7 @@ public class ExternalDb {
                 synchronized (lock) {
                     URL url = null;
                     try {
-                        url = new URL("https://caracal.imada.sdu.dk/app2020/posts?limit="+String.valueOf(number));
+                        url = new URL("https://caracal.imada.sdu.dk/app2020/posts?order=stamp.desc&limit="+String.valueOf(number));
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
                     }
