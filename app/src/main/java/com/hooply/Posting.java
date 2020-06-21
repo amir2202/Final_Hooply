@@ -1,10 +1,15 @@
 package com.hooply;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -29,10 +34,17 @@ public class Posting extends AppCompatActivity {
 
     List<Post> allposts;
     List<Comments> allcomments;
+
+    private ActionBar actionBar;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.postingactivity);
+        actionBar = getSupportActionBar();
+        actionBar.setTitle("Posts");
+
         allposts = ExternalDb.getPosts(3);
         allcomments = new ArrayList<Comments>();
         displayBox = (TextView) findViewById(R.id.uniqueid);
@@ -104,9 +116,24 @@ public class Posting extends AppCompatActivity {
         comment.setText(comments[0].getContent());
         comment2.setText(comments[1].getContent());
         comment3.setText(comments[2].getContent());
-
-
-
-
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.my_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.add_post:
+                Intent i = new  Intent(Posting.this, AddPost.class);
+                startActivity(i);
+                return true;
+        }
+        return false;
+    }
+
 }

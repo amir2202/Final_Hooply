@@ -1,7 +1,10 @@
 package com.hooply;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.hooply.ui.posts.PostsFragment;
@@ -56,5 +59,6 @@ public class MainPage extends AppCompatActivity {
         transaction.addToBackStack(null);
         transaction.commit();
     }
+
 
 }

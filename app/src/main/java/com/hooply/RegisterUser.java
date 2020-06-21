@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.sql.Timestamp;
 
@@ -75,15 +76,14 @@ public class RegisterUser extends AppCompatActivity {
                         lock.wait();
                     }
                 }
-            } catch(InterruptedException e){
-
-            }
+            } catch(InterruptedException e){ }
             if(MainActivity.userExists(userName) == true){
                 teststring = "true";
             }
-            Log.d("wwwwww", teststring);
+            //Log.d("wwwwww", teststring);
+            Toast.makeText(this, "UserID successfully registered.", Toast.LENGTH_SHORT).show();
             finish();
-            //TODO: store NAME TO DATABASE
+
         } else {
             new AlertDialog.Builder(this)
                     .setTitle("Error")
