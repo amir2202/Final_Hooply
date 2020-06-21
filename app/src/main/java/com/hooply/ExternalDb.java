@@ -37,7 +37,8 @@ public class ExternalDb {
                     try {
                         HttpURLConnection con = (HttpURLConnection) url.openConnection();
                         con.setRequestMethod("POST");
-                        con.setRequestProperty("Content-Type", "application/json");
+                        con.setRequestProperty("Accept", "application/json");
+                        con.setRequestProperty("Content-Type", "application/json; utf-8");
                         con.setRequestProperty("Authorization", "Bearer " + token);
                         con.setDoOutput(true);
                         Gson gson = new Gson();
@@ -45,6 +46,8 @@ public class ExternalDb {
                         OutputStream os = con.getOutputStream();
                         os.write(json.toString().getBytes("UTF-8"));
                         os.close();
+                        Log.d("auhdauhda", String.valueOf(con.getResponseCode()));
+                        Log.d("auhdauhd", con.getResponseMessage());
 
                     } catch (ProtocolException e) {
                         e.printStackTrace();
@@ -152,7 +155,8 @@ public class ExternalDb {
                     try {
                         HttpURLConnection con = (HttpURLConnection) url.openConnection();
                         con.setRequestMethod("POST");
-                        con.setRequestProperty("Content-Type", "application/json");
+                        con.setRequestProperty("Accept", "application/json");
+                        con.setRequestProperty("Content-Type", "application/json; utf-8");
                         con.setRequestProperty("Authorization", "Bearer " + token);
                         con.setDoOutput(true);
                         Gson gson = new Gson();
@@ -203,7 +207,8 @@ public class ExternalDb {
                     try {
                         HttpURLConnection con = (HttpURLConnection) url.openConnection();
                         con.setRequestMethod("POST");
-                        con.setRequestProperty("Content-Type", "application/json");
+                        con.setRequestProperty("Accept", "application/json");
+                        con.setRequestProperty("Content-Type", "application/json; utf-8");
                         con.setRequestProperty("Authorization", "Bearer " + token);
                         con.setDoOutput(true);
                         Gson gson = new Gson();
@@ -211,6 +216,8 @@ public class ExternalDb {
                         OutputStream os = con.getOutputStream();
                         os.write(json.toString().getBytes("UTF-8"));
                         os.close();
+                        Log.d("auhdqwegqegauhd", String.valueOf(con.getResponseCode()));
+                        Log.d("auhdauqegqegqegqeghd", con.getResponseMessage());
 
                     } catch (ProtocolException e) {
                         e.printStackTrace();
