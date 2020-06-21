@@ -46,29 +46,59 @@ public class Posting extends AppCompatActivity {
         actionBar.setTitle("Posts");
 
         allposts = ExternalDb.getPosts(3);
+        Log.d("stuffpost",String.valueOf(allposts.size()));
         allcomments = new ArrayList<Comments>();
         displayBox = (TextView) findViewById(R.id.uniqueid);
         imagebox = (ImageView) findViewById(R.id.imagestuff);
         commentBoxes= new TextView[]{(TextView)findViewById(R.id.comment1), (TextView) findViewById(R.id.comment2), (TextView) findViewById(R.id.comment2)};
-        this.setPost(allposts.get(postIndex));
         Button prev = (Button) findViewById(R.id.prevcomment);
-        if(GlobalVar.currentPost == 0){
-            GlobalVar.setEnabled(prev,false);
-        }
+        prev.setEnabled(false);
         Button nextcomment = (Button) findViewById(R.id.nextcomments);
         this.setPost(allposts.get(postIndex));
     }
 
-    public void buttonHandler(View view) {
-        this.commentIndex = this.commentIndex +3;
+    public void updateComments() {
         Comments[] showing = new Comments[3];
         int normalindex = 0;
-        for(int i = commentIndex; i < commentIndex +3; i++){
-            showing[normalindex] = allcomments.get(i);
-            normalindex++;
+        for (int i = commentIndex; i < commentIndex + 3; i++) {
+            try {
+                showing[normalindex] = allcomments.get(i);
+                normalindex++;
+            } catch (Exception e) {
+                break;
+            }
+            this.setComments(showing);
         }
         this.setComments(showing);
+    }
 
+    public void buttonHandler(View view) {
+        ((Button) findViewById(R.id.prevcomment)).setEnabled(true);
+
+        if(this.commentIndex + 6 >= this.allcomments.size()){
+            ((Button) findViewById(R.id.nextcomments)).setEnabled(false);
+        }
+
+        this.commentIndex = this.commentIndex + 3;
+        updateComments();
+    }
+
+    public void setFirst(Comments comments){
+        TextView comment = (TextView) findViewById(R.id.comment1);
+        comment.setText(comments.getContent());
+        //remember alcoments
+        allcomments.add(0, comments);
+    }
+
+    public void prevHandler(View view) {
+        ((Button) findViewById(R.id.nextcomments)).setEnabled(true);
+
+        if(this.commentIndex <= 3){
+            ((Button) findViewById(R.id.prevcomment)).setEnabled(false);
+        }
+
+        this.commentIndex = this.commentIndex - 3;
+        updateComments();
     }
 
     public void setPost(Post post){
@@ -94,10 +124,15 @@ public class Posting extends AppCompatActivity {
             displayBox.setText(post.getContent());
             displayBox.setText(post.getContent());
             allcomments = post.getAllComments();
+            if(allcomments.size() == 0){
+                Button next = findViewById(R.id.nextcomments);
+                next.setEnabled(false);
+                return;
+            }
             Comments[] showing = new Comments[3];
 
             for(int i = commentIndex; i < commentIndex +3; i++){
-                showing[i] = allcomments.get(i);
+                showing[i] = allcomments.get(0);
 
             }
             Log.d("thepost",post.getContent());
@@ -135,5 +170,7 @@ public class Posting extends AppCompatActivity {
         }
         return false;
     }
+
+
 
 }

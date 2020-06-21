@@ -270,9 +270,9 @@ public class ExternalDb {
                         while((charsRead = in.read(buffer, 0, buffer.length)) > 0) {
                             out.append(buffer, 0, charsRead);
                         }
-
-                        Log.d("testgettingpostcomments",out.toString());
+                        Log.d("what is uri", urlquery);
                         List<Comments> stuff = Parser.parseComments(out.toString(),MainActivity.db.myDao());
+                        Log.d("testgettingpostcomments",String.valueOf(stuff.size()));
                         posts[0] = stuff;
 
                     } catch (ProtocolException e) {
