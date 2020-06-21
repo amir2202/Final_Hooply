@@ -50,6 +50,7 @@ public class Posting extends AppCompatActivity {
          comment2 = (TextView) findViewById(R.id.comment2);
          comment3 = (TextView) findViewById(R.id.comment3);
          commentinput = (EditText) findViewById(R.id.owncomment);
+        ((Button) findViewById(R.id.previous_post)).setEnabled(false);
         actionBar = getSupportActionBar();
         actionBar.setTitle("Posts");
 
@@ -59,7 +60,7 @@ public class Posting extends AppCompatActivity {
         allcomments = new ArrayList<Comments>();
         displayBox = (TextView) findViewById(R.id.uniqueid);
         imagebox = (ImageView) findViewById(R.id.imagestuff);
-        commentBoxes= new TextView[]{(TextView)findViewById(R.id.comment1), (TextView) findViewById(R.id.comment2), (TextView) findViewById(R.id.comment2)};
+        commentBoxes= new TextView[]{(TextView)findViewById(R.id.comment1), (TextView) findViewById(R.id.comment2), (TextView) findViewById(R.id.comment3)};
 
         this.setPost(allposts.get(postIndex));
     }
@@ -103,6 +104,7 @@ public class Posting extends AppCompatActivity {
     }
 
     public void setPost(Post post) {
+        commentIndex = 0;
         // Get the post's comments
         allcomments = post.getAllComments();
         currentpost = post;
@@ -196,8 +198,18 @@ public class Posting extends AppCompatActivity {
 
     public void nextPost(View view) {
         postIndex++;
+        ((Button) findViewById(R.id.previous_post)).setEnabled(true);
         List<Post> oneel = ExternalDb.getPosts(1,postIndex);
         this.allposts.add(oneel.get(0));
         this.setPost(allposts.get(postIndex));
+    }
+
+    public void prevPost(View view) {
+        postIndex--;
+        List<Post> oneel = ExternalDb.getPosts(1,postIndex);
+        this.setPost(allposts.get(postIndex));
+        if(postIndex == 0){
+            ((Button) findViewById(R.id.previous_post)).setEnabled(false);
+        }
     }
 }

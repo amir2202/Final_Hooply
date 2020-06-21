@@ -50,6 +50,7 @@
 
     <Button
         android:id="@+id/previous_post"
+        android:onClick="prevPost"
         android:layout_width="116dp"
         android:layout_height="47dp"
         android:text="Previous"

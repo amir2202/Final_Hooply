@@ -205,7 +205,6 @@ public class MainActivity extends AppCompatActivity {
                             out.append(buffer, 0, charsRead);
                         }
 
-                        Log.d("teststuff",out.toString());
                         List<User> stuff = Parser.parseUsers(out.toString(),db.myDao());
                         for(User user:stuff){
                             if(db.myDao().userIdExists(user.getId()).size() == 0) {
