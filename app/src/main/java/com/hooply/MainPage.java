@@ -27,7 +27,7 @@ public class MainPage extends AppCompatActivity {
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setOnNavigationItemSelectedListener(selectListener);
 
-        actionBar.setTitle("Home");
+        actionBar.setTitle("Posts");
         loadFragment(new HomeFragment());
     }
 
@@ -37,7 +37,7 @@ public class MainPage extends AppCompatActivity {
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     switch (item.getItemId()){
                         case R.id.navigation_home:
-                            actionBar.setTitle("Home");
+                            actionBar.setTitle("Create a new Post");
                             getSupportFragmentManager().beginTransaction().replace(R.id.container, new HomeFragment()).commit();
                             return true;
                         case R.id.navigation_posts:
