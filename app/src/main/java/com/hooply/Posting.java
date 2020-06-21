@@ -133,18 +133,17 @@ public class Posting extends AppCompatActivity {
 
         // Check if there are any comments
         if (allcomments.size() != 0) {
-            Comments[] showing = new Comments[3];
-            int ownindex = 0;
-            for(int i = commentIndex; i < commentIndex +3; i++){
-                showing[ownindex] = allcomments.get(i);
-                ownindex++;
-            }
-            this.setComments(showing);
+            updateComments();
         // If no comments, disable the next comments button
         } else {
             comment1.setText("");
             comment2.setText("");
             comment3.setText("");
+        }
+
+        if (allcomments.size() > 3) {
+            ((Button) findViewById(R.id.nextcomments)).setEnabled(true);
+        } else {
             ((Button) findViewById(R.id.nextcomments)).setEnabled(false);
         }
     }
