@@ -84,7 +84,7 @@ public class RegisterUser extends AppCompatActivity {
         } else {
             new AlertDialog.Builder(this)
                     .setTitle("Error")
-                    .setMessage("Some fields are empty!")
+                    .setMessage("Error while creating a new user!")
                     .setNegativeButton("Retry", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {}
