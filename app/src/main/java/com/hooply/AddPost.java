@@ -60,6 +60,7 @@ public class AddPost extends AppCompatActivity {
                 String postString = postText.getText().toString();
                 Log.d("HENLOMEN",postString);
                 uploadPost(postString);
+
                 finish();
             }
         });

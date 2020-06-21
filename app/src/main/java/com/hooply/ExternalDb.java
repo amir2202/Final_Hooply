@@ -74,8 +74,7 @@ public class ExternalDb {
 
     }
 
-    public static List<Post> getPosts(int amount) {
-        final int number = amount;
+    public static List<Post> getPosts(final int amount, final int offset) {
         final Object lock = new Object();
         final List<Post>[] posts = new List[]{new ArrayList<Post>()};
         final boolean[] found = {false};
@@ -85,7 +84,7 @@ public class ExternalDb {
                 synchronized (lock) {
                     URL url = null;
                     try {
-                        url = new URL("https://caracal.imada.sdu.dk/app2020/posts?order=stamp.desc&limit="+String.valueOf(number));
+                        url = new URL("https://caracal.imada.sdu.dk/app2020/posts?order=stamp.desc&offset=" + String.valueOf(offset)+"&limit="+String.valueOf(amount));
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
                     }

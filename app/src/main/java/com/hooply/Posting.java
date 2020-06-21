@@ -12,9 +12,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -30,7 +32,9 @@ public class Posting extends AppCompatActivity {
     public TextView displayBox;
     public int commentIndex = 0;
     public int postIndex = 0;
+    public Post currentpost;
     ImageView imagebox;
+    public TextView commentinput;
 
     List<Post> allposts;
     List<Comments> allcomments;
@@ -42,12 +46,15 @@ public class Posting extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.postingactivity);
-
+         comment1 = (TextView) findViewById(R.id.comment1);
+         comment2 = (TextView) findViewById(R.id.comment2);
+         comment3 = (TextView) findViewById(R.id.comment3);
+         commentinput = (EditText) findViewById(R.id.owncomment);
         actionBar = getSupportActionBar();
         actionBar.setTitle("Posts");
 
-        allposts = ExternalDb.getPosts(3);
-        Log.d("stuffpost",String.valueOf(allposts.size()));
+        allposts = ExternalDb.getPosts(1,postIndex);
+
 
         allcomments = new ArrayList<Comments>();
         displayBox = (TextView) findViewById(R.id.uniqueid);
@@ -104,7 +111,7 @@ public class Posting extends AppCompatActivity {
     public void setPost(Post post) {
         // Get the post's comments
         allcomments = post.getAllComments();
-
+        currentpost = post;
         Pattern pattern = Pattern.compile("(@IMG\\[.*\\])");
         Matcher matcher = pattern.matcher(post.getContent());
 
@@ -114,14 +121,14 @@ public class Posting extends AppCompatActivity {
             int endindex = matcher.end();
 
             String base64 = post.getContent().substring(startindex +5,endindex);
+            Log.d("base64",base64);
             Bitmap imagine = Parser.convert64toImg(base64);
-
             imagebox.setImageBitmap(imagine);
+
         } else {
             displayBox.setText(post.getContent());
             displayBox.setText(post.getContent());
 
-            Log.d("thepost",post.getContent());
         }
 
         // Always disable the previous comments button when a new post is loaded
@@ -131,21 +138,33 @@ public class Posting extends AppCompatActivity {
         // Check if there are any comments
         if (allcomments.size() != 0) {
             Comments[] showing = new Comments[3];
+            int ownindex = 0;
             for(int i = commentIndex; i < commentIndex +3; i++){
-                showing[i] = allcomments.get(0);
+                showing[ownindex] = allcomments.get(i);
+                ownindex++;
             }
             this.setComments(showing);
         // If no comments, disable the next comments button
         } else {
+            comment1.setText("");
+            comment2.setText("");
+            comment3.setText("");
             ((Button) findViewById(R.id.nextcomments)).setEnabled(false);
         }
     }
-    public void setComments(Comments[] comments) {
-        TextView comment = (TextView) findViewById(R.id.comment1);
-        TextView comment2 = (TextView) findViewById(R.id.comment2);
-        TextView comment3 = (TextView) findViewById(R.id.comment3);
+    public void addComment(View view) {
+        String input = commentinput.getText().toString();
+        int time = (int) (System.currentTimeMillis());
+        Timestamp tsTemp = new Timestamp(time);
+        String ts =  tsTemp.toString();
+        Comments comment = new Comments(GlobalVar.userid,currentpost.getId(),input,ts);
+        ExternalDb.insertComment(comment);
+        this.setFirst(comment);
+    }
 
-        comment.setText(comments[0].getContent());
+    public void setComments(Comments[] comments) {
+
+        comment1.setText(comments[0].getContent());
         comment2.setText(comments[1].getContent());
         comment3.setText(comments[2].getContent());
     }
@@ -169,5 +188,10 @@ public class Posting extends AppCompatActivity {
     }
 
 
-
+    public void nextPost(View view) {
+        postIndex++;
+        List<Post> oneel = ExternalDb.getPosts(1,postIndex);
+        this.allposts.add(oneel.get(0));
+        this.setPost(allposts.get(postIndex));
+    }
 }

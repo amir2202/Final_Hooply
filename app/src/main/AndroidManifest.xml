@@ -15,9 +15,6 @@
         android:theme="@style/AppTheme">
         <activity android:name=".AddPost"></activity>
         <activity android:name=".Posting"></activity>
-        <activity
-            android:name=".MainPage"
-            android:label="@string/title_activity_main_page" />
         <activity android:name=".RegisterUser" />
         <activity android:name=".MainActivity">
             <intent-filter>
