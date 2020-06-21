@@ -31,6 +31,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class AddPost extends AppCompatActivity {
 
@@ -58,15 +59,25 @@ public class AddPost extends AppCompatActivity {
                 EditText postText = (EditText) findViewById(R.id.post_content);
                 String postString = postText.getText().toString();
                 Log.d("HENLOMEN",postString);
-                uploadPost();
+                uploadPost(postString);
                 finish();
             }
         });
     }
 
-    public void uploadPost(){
+    public void uploadPost(String poststring){
         Toast.makeText(this, "Post uploaded.", Toast.LENGTH_SHORT).show();
-        //TODO: upload post to database
+        Random random = new Random();
+
+        String testid = String.valueOf(random.nextInt(Integer.MAX_VALUE));
+        boolean has = ExternalDb.hasPostId(testid);
+        while(has == true){
+            testid = String.valueOf(random.nextInt(Integer.MAX_VALUE));
+            has = ExternalDb.hasPostId(testid);
+        }
+        Post mypost = new Post(Integer.valueOf(testid),GlobalVar.userid,poststring);
+        Log.d("id of post to findf",testid);
+        ExternalDb.insertPost(mypost);
     }
 
     public void imageButton(){
@@ -200,7 +211,6 @@ public class AddPost extends AppCompatActivity {
 //            //Now you can do whatever you want with your inpustream, save it as file, upload to a server, decode a bitmap...
 //        }
 //    }
-
 
 
 

@@ -300,7 +300,64 @@ public class ExternalDb {
         return posts[0];
     }
 
+    public static boolean hasPostId(final String id) {
+        final Object lock = new Object();
+        final List<Post>[] posts = new List[]{new ArrayList<Post>()};
+        final boolean[] found = {false};
 
+        Thread thread = new Thread(new Runnable() {
+            public void run() {
+                synchronized (lock) {
+                    URL url = null;
+                    try {
+                        url = new URL("https://caracal.imada.sdu.dk/app2020/posts?id=eq." +id);
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                        con.setRequestMethod("GET");
+                        String test = con.getResponseMessage();
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                        StringBuilder out = new StringBuilder();
+                        String line;
+                        final int bufferSize = 1024;
+                        final char[] buffer = new char[bufferSize];
+                        Reader in = new InputStreamReader(con.getInputStream());
+                        int charsRead;
+                        while((charsRead = in.read(buffer, 0, buffer.length)) > 0) {
+                            out.append(buffer, 0, charsRead);
+                        }
+                        List<Post> stuff = Parser.parsePost(out.toString(),MainActivity.db.myDao());
+                        if(stuff.size() >0){
+                            found[0] = true;
+                        }
+                        posts[0] = stuff;
+
+                    } catch (ProtocolException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    found[0] = true;
+                    lock.notify();
+                }
+            }
+        });
+
+        thread.start();
+
+        try {
+            synchronized(lock) {
+                while(found[0] == false) {
+                    lock.wait();
+                }
+            }
+        } catch (InterruptedException e) {
+
+        }
+        return found[0];
+    }
 
 }
 

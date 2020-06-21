@@ -14,6 +14,8 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import kotlin.text.UStringsKt;
+
 @Entity(indices = {@Index(name = "userindex2",value={"user"})},tableName = "Posts",foreignKeys = @ForeignKey(
         entity = User.class,
         parentColumns = "id",
@@ -23,11 +25,19 @@ import java.util.List;
 ))
 public class Post {
 
+    public Post(){}
+    public Post(int id, String userid,String content){
+        this.id = id;
+        this.user_id = userid;
+        this.content = content;
+    }
+
+    //Post id
     @PrimaryKey(autoGenerate = true)
     private int id;
 
     @ColumnInfo(name="user")
-    private int user;
+    private String user_id;
 
     @ColumnInfo(name="content")
     private String content;
@@ -42,12 +52,12 @@ public class Post {
         return id;
     }
 
-    public int getUser() {
-        return user;
+    public String getUser_id() {
+        return user_id;
     }
 
-    public void setUser(int user) {
-        this.user = user;
+    public void setUser_id(String user) {
+        this.user_id = user;
     }
 
     public String getContent() {

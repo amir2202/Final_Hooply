@@ -22,7 +22,6 @@ public class RegisterUser extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_user);
-
         Bundle b = getIntent().getExtras();
         userName = b.getString("UserName");
         EditText userIdText = (EditText) findViewById(R.id.userId);
