@@ -31,6 +31,7 @@ public class Posting extends AppCompatActivity {
     public TextView comment3;
     public TextView[] commentBoxes;
     public TextView displayBox;
+    public TextView postby;
     public int commentIndex = 0;
     public int postIndex = 0;
     public Post currentpost;
@@ -108,6 +109,10 @@ public class Posting extends AppCompatActivity {
 
     public void setPost(Post post) {
         commentIndex = 0;
+        TextView view = findViewById(R.id.userwhocreatedpost);
+        if(post.getUser_id().length() < 50){
+            view.setText(post.getUser_id());
+        }
         // Get the post's comments
         allcomments = post.getAllComments();
         currentpost = post;
