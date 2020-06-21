@@ -124,18 +124,14 @@ public class Posting extends AppCompatActivity {
 
         // Load the post
         if(matcher.find()) {
-            postIndex++;
-            nextPost(null);
-            return;
-            /*int startindex = matcher.start();
+
+            int startindex = matcher.start();
             int endindex = matcher.end();
 
             String base64 = post.getContent().substring(startindex +5,endindex);
             Log.d("base64",base64);
             Bitmap imagine = Parser.convert64toImg(base64);
             imagebox.setImageBitmap(imagine);
-            */
-
 
         } else {
             displayBox.setText(post.getContent());
