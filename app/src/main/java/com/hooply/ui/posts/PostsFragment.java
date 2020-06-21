@@ -14,6 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -56,15 +57,16 @@ public class PostsFragment extends Fragment {
         allcomments = new ArrayList<Comments>();
         Log.d("post",allposts.get(0).getContent());
 //        postsViewModel =
-////                ViewModelProviders.of(this).get(PostsViewModel.class);
-////        View root = inflater.inflate(R.layout.fragment_posts, container, false);
-////        final TextView textView = root.findViewById(R.id.text_posts);
-////        postsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-////            @Override
-////            public void onChanged(@Nullable String s) {
-////                textView.setText(s);
-////            }
-////        });
+//                ViewModelProviders.of(this).get(PostsViewModel.class);
+//        View root = inflater.inflate(R.layout.fragment_posts, container, false);
+//        final TextView textView = root.findViewById(R.id.text_posts);
+//        postsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+//            @Override
+//            public void onChanged(@Nullable String s) {
+//                textView.setText(s);
+//            }
+//        });
+
 
         v = inflater.inflate(R.layout.fragment_posts, container, false);
         displayBox = (TextView) v.findViewById(R.id.uniqueid);
