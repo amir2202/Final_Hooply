@@ -16,6 +16,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +37,7 @@ public class Posting extends AppCompatActivity {
     public Post currentpost;
     ImageView imagebox;
     public TextView commentinput;
+    public TextView userdisplay;
 
     List<Post> allposts;
     List<Comments> allcomments;
@@ -46,6 +49,7 @@ public class Posting extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.postingactivity);
+         userdisplay = (TextView) findViewById(R.id.userwhocreatedpost);
          comment1 = (TextView) findViewById(R.id.comment1);
          comment2 = (TextView) findViewById(R.id.comment2);
          comment3 = (TextView) findViewById(R.id.comment3);
@@ -108,11 +112,19 @@ public class Posting extends AppCompatActivity {
         // Get the post's comments
         allcomments = post.getAllComments();
         currentpost = post;
+        String userwhoposted = post.getUser_id();
+        if(userwhoposted.length() > 30){
+            userdisplay.setText("user too long");
+        }
+        else {
+            userdisplay.setText(post.getUser_id());
+        }
         Pattern pattern = Pattern.compile("(@IMG\\[.*\\])");
         Matcher matcher = pattern.matcher(post.getContent());
 
         // Load the post
         if(matcher.find()) {
+
             int startindex = matcher.start();
             int endindex = matcher.end();
 
@@ -211,4 +223,6 @@ public class Posting extends AppCompatActivity {
             ((Button) findViewById(R.id.previous_post)).setEnabled(false);
         }
     }
+
+
 }
