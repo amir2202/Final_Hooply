@@ -241,6 +241,67 @@ public class ExternalDb {
             return;
         }
     }
+
+    public static List<Comments> getComments(final String urlquery) {
+        final Object lock = new Object();
+        final List<Comments>[] posts = new List[]{new ArrayList<Comments>()};
+        final boolean[] found = {false};
+
+        Thread thread = new Thread(new Runnable() {
+            public void run() {
+                synchronized (lock) {
+                    URL url = null;
+                    try {
+                        url = new URL(urlquery);
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                        con.setRequestMethod("GET");
+                        String test = con.getResponseMessage();
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                        StringBuilder out = new StringBuilder();
+                        String line;
+                        final int bufferSize = 1024;
+                        final char[] buffer = new char[bufferSize];
+                        Reader in = new InputStreamReader(con.getInputStream());
+                        int charsRead;
+                        while((charsRead = in.read(buffer, 0, buffer.length)) > 0) {
+                            out.append(buffer, 0, charsRead);
+                        }
+
+                        Log.d("testgettingpostcomments",out.toString());
+                        List<Post> stuff = Parser.parsePost(out.toString(),MainActivity.db.myDao());
+                        //posts[0] = stuff;
+
+                    } catch (ProtocolException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    found[0] = true;
+                    lock.notify();
+                }
+            }
+        });
+
+        thread.start();
+
+        try {
+            synchronized(lock) {
+                while(found[0] == false) {
+                    lock.wait();
+                }
+            }
+        } catch (InterruptedException e) {
+
+        }
+        return posts[0];
+    }
+
+
+
 }
 
 

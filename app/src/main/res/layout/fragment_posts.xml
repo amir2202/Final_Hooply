@@ -9,10 +9,12 @@
         android:id="@+id/fragment_place"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.home.HomeFragment">
+        tools:context=".ui.home.HomeFragment"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="49dp">
 
         <TextView
-            android:id="@+id/text_home"
+            android:id="@+id/texthomestuff"
             android:layout_width="0dp"
             android:layout_height="746dp"
             android:layout_marginStart="8dp"
@@ -35,10 +37,10 @@
             android:text="lorem ipsum dorset"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.509"
+            app:layout_constraintHorizontal_bias="0.515"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.6" />
+            app:layout_constraintTop_toBottomOf="@+id/comment2"
+            app:layout_constraintVertical_bias="0.063" />
 
         <TextView
             android:id="@+id/comment2"
@@ -46,11 +48,14 @@
             android:layout_height="28dp"
             android:layout_marginStart="72dp"
             android:layout_marginLeft="72dp"
+            android:layout_marginEnd="76dp"
+            android:layout_marginRight="76dp"
             android:text="lorem ipsum"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/text_home"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.534" />
+            app:layout_constraintTop_toBottomOf="@+id/comment1"
+            app:layout_constraintVertical_bias="0.065" />
 
         <Button
             android:id="@+id/previous_post"
@@ -116,13 +121,14 @@
             android:id="@+id/comment1"
             android:layout_width="254dp"
             android:layout_height="28dp"
+            android:layout_marginBottom="376dp"
             android:text="lorem ipsum"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/add"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.509"
+            app:layout_constraintHorizontal_bias="0.515"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/text_home"
-            app:layout_constraintVertical_bias="0.459" />
+            app:layout_constraintTop_toBottomOf="@+id/uniqueid"
+            app:layout_constraintVertical_bias="0.923" />
 
         <Button
             android:id="@+id/add"
@@ -140,6 +146,7 @@
             android:id="@+id/editTextTextMultiLine"
             android:layout_width="245dp"
             android:layout_height="65dp"
+            android:layout_marginTop="11dp"
             android:ems="10"
             android:gravity="start|top"
             android:inputType="textMultiLine"
@@ -148,8 +155,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.692" />
+            app:layout_constraintTop_toBottomOf="@+id/comment3"
+            app:layout_constraintVertical_bias="0.024" />
 
         <TextView
             android:id="@+id/uniqueid"

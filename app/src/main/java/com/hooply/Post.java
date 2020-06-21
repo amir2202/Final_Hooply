@@ -71,6 +71,9 @@ public class Post {
     }
 
     public ArrayList<Comments> getAllComments(){
+
+
+        String query = "https://caracal.imada.sdu.dk/app2020/comments?post_id=eq."+String.valueOf(this.id);
         this.allcomments = new ArrayList<Comments>();
         Comments example = new Comments();
         example.setContent("test comment");

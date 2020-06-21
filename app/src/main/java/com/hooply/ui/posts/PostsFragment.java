@@ -1,5 +1,6 @@
 package com.hooply.ui.posts;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,6 +37,9 @@ public class PostsFragment extends Fragment {
 
    // private PostsViewModel postsViewModel;
     public View v;
+    public TextView comment1;
+    public TextView comment2;
+    public TextView comment3;
     public TextView[] commentBoxes;
     public TextView displayBox;
     public int commentIndex = 0;
@@ -65,6 +69,7 @@ public class PostsFragment extends Fragment {
         v = inflater.inflate(R.layout.fragment_posts, container, false);
         displayBox = (TextView) v.findViewById(R.id.uniqueid);
         imagebox = (ImageView) v.findViewById(R.id.imagestuff);
+
         commentBoxes= new TextView[]{(TextView) v.findViewById(R.id.comment1), (TextView) v.findViewById(R.id.comment2), (TextView) v.findViewById(R.id.comment2)};
         this.setPost(allposts.get(postIndex));
         Button prev = (Button) v.findViewById(R.id.prevcomment);
@@ -79,10 +84,20 @@ public class PostsFragment extends Fragment {
 
 
     public void setComments(Comments[] comments){
-        for(int i = commentIndex; i < comments.length;i++){
-            TextView box = commentBoxes[i];
-            box.setText(comments[i].getContent());
-        }
+        /*
+        MainActivity.instance.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                TextView comment = (TextView) v.findViewById(R.id.comment1);
+                Log.d("asdasd",String.valueOf(comment.getText()));
+                comment.setText("comm1");
+                Log.d("asadasdasd",String.valueOf(comment.getText()));
+                LayoutInflater inflater = (LayoutInflater) MainActivity.instance.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View view = inflater.inflate(R.layout.activity_main, null);
+                view.invalidate();
+            }
+        });
+        */
     }
 
     public void setPost(Post post){
