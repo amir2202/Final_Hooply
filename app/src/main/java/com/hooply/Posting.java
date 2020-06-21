@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Debug;
 import android.text.Editable;
 import android.util.Log;
 import android.view.View;
@@ -38,7 +39,8 @@ public class Posting extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.postingactivity);
 
-        allposts = ExternalDb.getPosts(3);
+        allposts = ExternalDb.getPosts(1);
+        Log.d("list size", String.valueOf(allposts.size()));
         commentinput = findViewById(R.id.owncomment);
         allcomments = new ArrayList<Comments>();
         displayBox = (TextView) findViewById(R.id.uniqueid);
@@ -48,7 +50,7 @@ public class Posting extends AppCompatActivity {
         prev.setEnabled(false);
 
         Button nextcomment = (Button) findViewById(R.id.nextcomments);
-        this.setPost(allposts.get(postIndex));
+        this.setPost(allposts.get(0));
     }
 
     public void updateComments() {
@@ -92,7 +94,8 @@ public class Posting extends AppCompatActivity {
         Pattern pattern = Pattern.compile("(@IMG\\[.*\\])");
         Matcher matcher = pattern.matcher(post.getContent());
         if(matcher.find())
-        { /*
+        {
+            /*
             int startindex = matcher.start();
             int endindex = matcher.end();
             String base64 = post.getContent().substring(startindex +5,endindex);
@@ -104,22 +107,23 @@ public class Posting extends AppCompatActivity {
                 showing[i] = allcomments.get(i);
             }
             this.setComments(showing);
-            */
+*/
         }
         else{
             displayBox.setText(post.getContent());
-            displayBox.setText(post.getContent());
+        /*    this.setPost(allposts.get(0));
+            Log.d("thepost",post.getContent());
             allcomments = post.getAllComments();
             Comments[] showing = new Comments[3];
-
+            int ownindex = 0;
             for(int i = commentIndex; i < commentIndex +3; i++){
-                showing[i] = allcomments.get(i);
-
+                showing[ownindex] = allcomments.get(i);
+                ownindex++;
             }
             Log.d("thepost",post.getContent());
             Log.d("firstcomm",showing[0].getContent());
             this.setComments(showing);
-
+*/
 
         }
         currentpost = post;
@@ -158,6 +162,7 @@ public class Posting extends AppCompatActivity {
         Post next = allposts.get(postIndex);
         allcomments = next.getAllComments();
         this.setPost(next);
+        commentIndex = 0;
     }
 
     public void prevPost(View view){
