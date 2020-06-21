@@ -5,6 +5,7 @@ import android.widget.Button;
 
 public class GlobalVar {
     public static int currentPost = 0;
+    public static String userid;
     public static void setEnabled(Button button,boolean bool){
         if(bool == false){
             button.setEnabled(false);

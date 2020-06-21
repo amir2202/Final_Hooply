@@ -107,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString("uid", uid);
         editor.apply();
+        GlobalVar.userid=uid;
     }
 
 

@@ -4,12 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.Editable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -24,9 +27,10 @@ public class Posting extends AppCompatActivity {
     public TextView[] commentBoxes;
     public TextView displayBox;
     public int commentIndex = 0;
+    public EditText commentinput;
     public int postIndex = 0;
     ImageView imagebox;
-
+    public Post currentpost;
     List<Post> allposts;
     List<Comments> allcomments;
     @Override
@@ -34,6 +38,7 @@ public class Posting extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.postingactivity);
         allposts = ExternalDb.getPosts(3);
+        commentinput = findViewById(R.id.owncomment);
         allcomments = new ArrayList<Comments>();
         displayBox = (TextView) findViewById(R.id.uniqueid);
         imagebox = (ImageView) findViewById(R.id.imagestuff);
@@ -48,15 +53,19 @@ public class Posting extends AppCompatActivity {
     }
 
     public void buttonHandler(View view) {
-        this.commentIndex = this.commentIndex +3;
-        Comments[] showing = new Comments[3];
-        int normalindex = 0;
-        for(int i = commentIndex; i < commentIndex +3; i++){
-            showing[normalindex] = allcomments.get(i);
-            normalindex++;
-        }
-        this.setComments(showing);
+        if(this.commentIndex +3 >= this.allcomments.size()){
 
+        }
+        else{
+            this.commentIndex = this.commentIndex + 3;
+            Comments[] showing = new Comments[3];
+            int normalindex = 0;
+            for (int i = commentIndex; i < commentIndex + 3; i++) {
+                showing[normalindex] = allcomments.get(i);
+                normalindex++;
+            }
+            this.setComments(showing);
+        }
     }
 
     public void setPost(Post post){
@@ -94,7 +103,7 @@ public class Posting extends AppCompatActivity {
 
 
         }
-
+        currentpost = post;
 
     }
     public void setComments(Comments[] comments){
@@ -106,7 +115,21 @@ public class Posting extends AppCompatActivity {
         comment3.setText(comments[2].getContent());
 
 
+    }
 
+    public void setFirst(Comments comments){
+        TextView comment = (TextView) findViewById(R.id.comment1);
+        comment.setText(comments.getContent());
+        //remember alcoments
+    }
 
+    public void addComment(View view) {
+        String input = commentinput.getText().toString();
+        int time = (int) (System.currentTimeMillis());
+        Timestamp tsTemp = new Timestamp(time);
+        String ts =  tsTemp.toString();
+        Comments comment = new Comments(GlobalVar.userid,currentpost.getId(),input,ts);
+        ExternalDb.insertComment(comment);
+        this.setFirst(comment);
     }
 }
