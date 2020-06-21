@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -53,6 +54,8 @@ public class Posting extends AppCompatActivity {
         ((Button) findViewById(R.id.previous_post)).setEnabled(false);
         actionBar = getSupportActionBar();
         actionBar.setTitle("Posts");
+//        actionBar.setSubtitle("Click the + button to create a new post");
+        actionBar.setSubtitle("UserID: " + GlobalVar.userid);
 
         allposts = ExternalDb.getPosts(1,postIndex);
 
@@ -154,19 +157,23 @@ public class Posting extends AppCompatActivity {
             return;
         }
         String input = commentinput.getText().toString();
-        int time = (int) (System.currentTimeMillis());
-        Timestamp tsTemp = new Timestamp(time);
-        String ts =  tsTemp.toString();
-        Comments comment = new Comments(GlobalVar.userid,currentpost.getId(),input,ts);
-        ExternalDb.insertComment(comment);
-        allcomments.add(0,comment);
-        if(allcomments.size() > 3){
-            ((Button) findViewById(R.id.nextcomments)).setEnabled(true);
+        if(!input.equals("")){
+            int time = (int) (System.currentTimeMillis());
+            Timestamp tsTemp = new Timestamp(time);
+            String ts =  tsTemp.toString();
+            Comments comment = new Comments(GlobalVar.userid,currentpost.getId(),input,ts);
+            ExternalDb.insertComment(comment);
+            allcomments.add(0,comment);
+            if(allcomments.size() > 3){
+                ((Button) findViewById(R.id.nextcomments)).setEnabled(true);
+            }
+            comment3.setText(comment2.getText());
+            comment2.setText(comment1.getText());
+            comment1.setText(comment.getContent());
+            Toast.makeText(this, "Comment has been uploaded.", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Empty comment is not allowed.", Toast.LENGTH_SHORT).show();
         }
-        comment3.setText(comment2.getText());
-        comment2.setText(comment1.getText());
-        comment1.setText(comment.getContent());
-
     }
 
     public void setComments(Comments[] comments) {

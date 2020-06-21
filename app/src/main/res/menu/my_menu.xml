@@ -5,6 +5,6 @@
         android:id="@+id/add_post"
         android:icon="@drawable/ic_add_post"
         android:orderInCategory="100"
-        android:title="addPost"
+        android:title="Add a new Post"
         app:showAsAction="ifRoom" />
 </menu>
