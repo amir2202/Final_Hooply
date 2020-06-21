@@ -44,9 +44,6 @@ public class Posting extends AppCompatActivity {
         displayBox = (TextView) findViewById(R.id.uniqueid);
         imagebox = (ImageView) findViewById(R.id.imagestuff);
         commentBoxes= new TextView[]{(TextView)findViewById(R.id.comment1), (TextView) findViewById(R.id.comment2), (TextView) findViewById(R.id.comment2)};
-
-        this.setPost(allposts.get(postIndex));
-
         Button prev = (Button) findViewById(R.id.prevcomment);
         prev.setEnabled(false);
 
@@ -92,11 +89,10 @@ public class Posting extends AppCompatActivity {
 
     public void setPost(Post post){
 
-
         Pattern pattern = Pattern.compile("(@IMG\\[.*\\])");
         Matcher matcher = pattern.matcher(post.getContent());
         if(matcher.find())
-        {
+        { /*
             int startindex = matcher.start();
             int endindex = matcher.end();
             String base64 = post.getContent().substring(startindex +5,endindex);
@@ -108,6 +104,7 @@ public class Posting extends AppCompatActivity {
                 showing[i] = allcomments.get(i);
             }
             this.setComments(showing);
+            */
         }
         else{
             displayBox.setText(post.getContent());
@@ -126,6 +123,7 @@ public class Posting extends AppCompatActivity {
 
         }
         currentpost = post;
+
 
     }
     public void setComments(Comments[] comments){
@@ -153,5 +151,16 @@ public class Posting extends AppCompatActivity {
         Comments comment = new Comments(GlobalVar.userid,currentpost.getId(),input,ts);
         ExternalDb.insertComment(comment);
         this.setFirst(comment);
+    }
+
+    public void nextPost(View view){
+        postIndex++;
+        Post next = allposts.get(postIndex);
+        allcomments = next.getAllComments();
+        this.setPost(next);
+    }
+
+    public void prevPost(View view){
+
     }
 }
