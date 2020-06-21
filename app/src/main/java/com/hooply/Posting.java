@@ -48,6 +48,14 @@ public class Posting extends AppCompatActivity {
     }
 
     public void buttonHandler(View view) {
+        this.commentIndex = this.commentIndex +3;
+        Comments[] showing = new Comments[3];
+        int normalindex = 0;
+        for(int i = commentIndex; i < commentIndex +3; i++){
+            showing[normalindex] = allcomments.get(i);
+            normalindex++;
+        }
+        this.setComments(showing);
 
     }
 
