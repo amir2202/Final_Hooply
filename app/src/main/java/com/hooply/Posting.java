@@ -42,18 +42,18 @@ public class Posting extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.postingactivity);
+
         actionBar = getSupportActionBar();
         actionBar.setTitle("Posts");
 
         allposts = ExternalDb.getPosts(3);
         Log.d("stuffpost",String.valueOf(allposts.size()));
+
         allcomments = new ArrayList<Comments>();
         displayBox = (TextView) findViewById(R.id.uniqueid);
         imagebox = (ImageView) findViewById(R.id.imagestuff);
         commentBoxes= new TextView[]{(TextView)findViewById(R.id.comment1), (TextView) findViewById(R.id.comment2), (TextView) findViewById(R.id.comment2)};
-        Button prev = (Button) findViewById(R.id.prevcomment);
-        prev.setEnabled(false);
-        Button nextcomment = (Button) findViewById(R.id.nextcomments);
+
         this.setPost(allposts.get(postIndex));
     }
 
@@ -83,7 +83,7 @@ public class Posting extends AppCompatActivity {
         updateComments();
     }
 
-    public void setFirst(Comments comments){
+    public void setFirst(Comments comments) {
         TextView comment = (TextView) findViewById(R.id.comment1);
         comment.setText(comments.getContent());
         //remember alcoments
@@ -101,53 +101,50 @@ public class Posting extends AppCompatActivity {
         updateComments();
     }
 
-    public void setPost(Post post){
-
+    public void setPost(Post post) {
+        // Get the post's comments
+        allcomments = post.getAllComments();
 
         Pattern pattern = Pattern.compile("(@IMG\\[.*\\])");
         Matcher matcher = pattern.matcher(post.getContent());
-        if(matcher.find())
-        {
+
+        // Load the post
+        if(matcher.find()) {
             int startindex = matcher.start();
             int endindex = matcher.end();
+
             String base64 = post.getContent().substring(startindex +5,endindex);
             Bitmap imagine = Parser.convert64toImg(base64);
-            imagebox.setImageBitmap(imagine);
-            allcomments = post.getAllComments();
-            Comments[] showing = new Comments[3];
-            for(int i = commentIndex; i < commentIndex +3; i++){
-                showing[i] = allcomments.get(i);
-            }
-            this.setComments(showing);
-        }
-        else{
-            displayBox.setText(post.getContent());
-            displayBox.setText(post.getContent());
-            allcomments = post.getAllComments();
-            if(allcomments.size() == 0){
-                Button next = findViewById(R.id.nextcomments);
-                next.setEnabled(false);
-                return;
-            }
-            Comments[] showing = new Comments[3];
 
+            imagebox.setImageBitmap(imagine);
+        } else {
+            displayBox.setText(post.getContent());
+            displayBox.setText(post.getContent());
+
+            Log.d("thepost",post.getContent());
+        }
+
+        // Always disable the previous comments button when a new post is loaded
+        ((Button) findViewById(R.id.prevcomment)).setEnabled(false);
+
+
+        // Check if there are any comments
+        if (allcomments.size() != 0) {
+            Comments[] showing = new Comments[3];
             for(int i = commentIndex; i < commentIndex +3; i++){
                 showing[i] = allcomments.get(0);
-
             }
-            Log.d("thepost",post.getContent());
-            Log.d("firstcomm",showing[0].getContent());
             this.setComments(showing);
-
-
+        // If no comments, disable the next comments button
+        } else {
+            ((Button) findViewById(R.id.nextcomments)).setEnabled(false);
         }
-
-
     }
-    public void setComments(Comments[] comments){
+    public void setComments(Comments[] comments) {
         TextView comment = (TextView) findViewById(R.id.comment1);
         TextView comment2 = (TextView) findViewById(R.id.comment2);
         TextView comment3 = (TextView) findViewById(R.id.comment3);
+
         comment.setText(comments[0].getContent());
         comment2.setText(comments[1].getContent());
         comment3.setText(comments[2].getContent());
