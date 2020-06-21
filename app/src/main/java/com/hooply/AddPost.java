@@ -53,7 +53,6 @@ public class AddPost extends AppCompatActivity {
             public void onClick(View view) {
                 EditText postText = (EditText) findViewById(R.id.post_content);
                 String postString = postText.getText().toString();
-                //Log.d("HENLOMEN",postString);
                 uploadPost(postString);
                 finish();
             }
@@ -71,11 +70,11 @@ public class AddPost extends AppCompatActivity {
         }
         Post mypost = new Post(Integer.valueOf(testid),GlobalVar.userid,poststring);
         ExternalDb.insertPost(mypost);
-        Log.d("finalid",testid);
         if(imageView.getDrawable() == null){
             Toast.makeText(this, "Post uploaded without an image.", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "Post uploaded an with image.", Toast.LENGTH_SHORT).show();
+            String img = bitmap.toString();
             uploadPicture(bitmap);
         }
     }

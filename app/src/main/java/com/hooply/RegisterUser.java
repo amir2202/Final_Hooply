@@ -48,7 +48,6 @@ public class RegisterUser extends AppCompatActivity {
     public void storeName(String firstName, String lastName){
         final Object lock = new Object();
         final boolean[] ready = {false};
-        Log.d("NAMES:", firstName + " " + lastName);
         if (!lastName.equals("") && !firstName.equals("") && !MainActivity.userExists(userName)){
             MainActivity.instance.storeUsername(userName);
             int time = (int) (System.currentTimeMillis());
@@ -79,7 +78,6 @@ public class RegisterUser extends AppCompatActivity {
             if(MainActivity.userExists(userName) == true){
                 teststring = "true";
             }
-            //Log.d("wwwwww", teststring);
             Toast.makeText(this, "UserID successfully registered.", Toast.LENGTH_SHORT).show();
             finish();
 

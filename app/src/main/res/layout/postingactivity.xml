@@ -119,10 +119,10 @@
         android:layout_marginBottom="376dp"
         app:layout_constraintBottom_toBottomOf="@+id/add"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.515"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/uniqueid"
-        app:layout_constraintVertical_bias="0.923" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/add"
@@ -142,8 +142,8 @@
         android:layout_marginTop="11dp"
         android:ems="10"
         android:gravity="start|top"
+        android:hint="Enter your own comment."
         android:inputType="textMultiLine"
-        android:text="Enter your own comment."
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -158,23 +158,35 @@
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.512"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.185" />
+        app:layout_constraintVertical_bias="0.189" />
 
     <TextView
         android:id="@+id/posttitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Post"
+        android:layout_width="76dp"
+        android:layout_height="36dp"
+        android:text="Post -"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.458"
+        app:layout_constraintHorizontal_bias="0.274"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.057" />
+
+    <TextView
+        android:id="@+id/userwhocreatedpost"
+        android:layout_width="77dp"
+        android:layout_height="32dp"
+        android:text=".."
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.571"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.062"
+        tools:textSize="14sp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

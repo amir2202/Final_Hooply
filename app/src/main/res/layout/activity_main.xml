@@ -45,28 +45,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.734" />
 
-    <TextView
-        android:id="@+id/debug"
-        android:layout_width="226dp"
-        android:layout_height="53dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signInButton"
-        app:layout_constraintVertical_bias="0.922" />
-
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="221dp"
-        android:layout_height="113dp"
+        android:layout_width="259dp"
+        android:layout_height="168dp"
         android:contentDescription="TODO"
         app:layout_constraintBottom_toTopOf="@+id/usernameText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.561"
-        app:srcCompat="@drawable/logo" />
+        app:srcCompat="@drawable/hoply_logo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

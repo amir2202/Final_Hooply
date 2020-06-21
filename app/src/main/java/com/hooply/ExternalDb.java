@@ -82,7 +82,7 @@ public class ExternalDb {
                 synchronized (lock) {
                     URL url = null;
                     try {
-                        url = new URL("https://caracal.imada.sdu.dk/app2020/posts?order=stamp.desc&offset=" + String.valueOf(offset)+"&limit="+String.valueOf(amount));
+                        url = new URL("https://caracal.imada.sdu.dk/app2020/posts?order=stamp.asc&offset=" + String.valueOf(offset)+"&limit="+String.valueOf(amount));
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
                     }
@@ -99,13 +99,16 @@ public class ExternalDb {
                         final char[] buffer = new char[bufferSize];
                         Reader in = new InputStreamReader(con.getInputStream());
                         int charsRead;
+                        boolean iscorrect = true;
                         while((charsRead = in.read(buffer, 0, buffer.length)) > 0) {
                             out.append(buffer, 0, charsRead);
+
                         }
 
-
-                        List<Post> stuff = Parser.parsePost(out.toString(),MainActivity.db.myDao());
+                        in.close();
+                        List<Post> stuff = Parser.parsePost(out.toString(), MainActivity.db.myDao());
                         posts[0] = stuff;
+
 
                     } catch (ProtocolException e) {
                         e.printStackTrace();

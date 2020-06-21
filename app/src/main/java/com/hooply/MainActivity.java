@@ -47,8 +47,6 @@ public class MainActivity extends AppCompatActivity {
                 EditText emailText = (EditText) findViewById(R.id.usernameText);
                 String email = emailText.getText().toString();
                 register(email);
-                TextView debug = (TextView) findViewById(R.id.debug);
-                debug.setText("register:" + email);
             }
         });
         Button loginButton = (Button) findViewById(R.id.signInButton);
@@ -58,8 +56,6 @@ public class MainActivity extends AppCompatActivity {
                 EditText emailText = (EditText) findViewById(R.id.usernameText);
                 String email = emailText.getText().toString();
                 login(email);
-                TextView debug = (TextView) findViewById(R.id.debug);
-                debug.setText("login: " + email);
             }
         });
         try {
@@ -74,8 +70,6 @@ public class MainActivity extends AppCompatActivity {
         boolean wrongUsername = !userExists(username);       //USE FOR CHECKING IF THE USERNAME IS CORRECT
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         String storeduser = sharedPref.getString("uid","");
-        Log.d("eee2",userExists(username)?"true":"false");
-        Log.d("eee",storeduser);
         if(wrongUsername || username.equals("") || !storeduser.equals(username)) {
             new AlertDialog.Builder(this)
                     .setTitle("Error")
@@ -97,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
         if(!username.equals("")){
             Intent i = new  Intent(MainActivity.this, RegisterUser.class);
             i.putExtra("UserName",username);
-            Log.d("MEN",username);
             startActivity(i);
         }
     }

@@ -46,10 +46,10 @@ public class Posting extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.postingactivity);
-         comment1 = (TextView) findViewById(R.id.comment1);
-         comment2 = (TextView) findViewById(R.id.comment2);
-         comment3 = (TextView) findViewById(R.id.comment3);
-         commentinput = (EditText) findViewById(R.id.owncomment);
+        comment1 = (TextView) findViewById(R.id.comment1);
+        comment2 = (TextView) findViewById(R.id.comment2);
+        comment3 = (TextView) findViewById(R.id.comment3);
+        commentinput = (EditText) findViewById(R.id.owncomment);
         ((Button) findViewById(R.id.previous_post)).setEnabled(false);
         actionBar = getSupportActionBar();
         actionBar.setTitle("Posts");
@@ -108,21 +108,23 @@ public class Posting extends AppCompatActivity {
         // Get the post's comments
         allcomments = post.getAllComments();
         currentpost = post;
-        Pattern pattern = Pattern.compile("(@IMG\\[.*\\])");
+        Pattern pattern = Pattern.compile("(@IMG*)");
         Matcher matcher = pattern.matcher(post.getContent());
 
         // Load the post
         if(matcher.find()) {
             int startindex = matcher.start();
             int endindex = matcher.end();
-
+            displayBox.setText("images currently not supported");
+/*
             String base64 = post.getContent().substring(startindex +5,endindex);
             Log.d("base64",base64);
             Bitmap imagine = Parser.convert64toImg(base64);
-            imagebox.setImageBitmap(imagine);
+            imagebox.setImageBitmap(imagine)
+
+ */
 
         } else {
-            displayBox.setText(post.getContent());
             displayBox.setText(post.getContent());
 
         }
@@ -134,7 +136,7 @@ public class Posting extends AppCompatActivity {
         // Check if there are any comments
         if (allcomments.size() != 0) {
             updateComments();
-        // If no comments, disable the next comments button
+            // If no comments, disable the next comments button
         } else {
             comment1.setText("");
             comment2.setText("");
@@ -148,6 +150,9 @@ public class Posting extends AppCompatActivity {
         }
     }
     public void addComment(View view) {
+        if(commentinput.getText().equals("")){
+            return;
+        }
         String input = commentinput.getText().toString();
         int time = (int) (System.currentTimeMillis());
         Timestamp tsTemp = new Timestamp(time);
